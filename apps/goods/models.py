@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.db import models
-from extra_apps.DjangoUeditor.models import UEditorField
+from DjangoUeditor.models import UEditorField
 
 
 # Create your models here.
@@ -89,7 +89,7 @@ class IndexAd(models.Model):
 
     """
     category = models.ForeignKey(GoodsCategory, related_name='category', verbose_name="商品类目", on_delete=models.CASCADE)
-    goods = models.ForeignKey(Goods, related_name='goods', on_delete=models.CASCADE3)
+    goods = models.ForeignKey(Goods, related_name='goods', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name = '首页商品类别广告'

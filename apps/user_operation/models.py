@@ -3,7 +3,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from apps.goods.models import Goods
+from goods.models import Goods
 # Create your models here.
 User = get_user_model()
 
@@ -22,7 +22,7 @@ class UserFav(models.Model):
         unique_together = ("user", "goods")
 
     def __str__(self):
-        return self.user.username
+        return self.user.name
 
 
 class UserLeavingMessage(models.Model):
