@@ -20,6 +20,7 @@ import xadmin
 
 from MossonMall.settings import MEDIA_ROOT
 
+from goods.views_base import GoodListView
 
 
 urlpatterns = [
@@ -27,4 +28,7 @@ urlpatterns = [
     path('xadmin/', xadmin.site.urls),
 
     re_path(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
+
+    # 商品列表
+    re_path(r'goods/$', GoodListView.as_view(), name="gods-list")
 ]
