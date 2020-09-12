@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'user_operation',
     'crispy_forms', # xadmin 中需要用到的
     'xadmin',
+    'rest_framework',
+    'django_filters',# restframework 的过滤插件
 
 ]
 
@@ -145,3 +147,7 @@ STATIC_URL = '/static/'
 # 媒体文件相关
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+REST_FRAMEWORK = {
+
+}

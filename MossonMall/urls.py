@@ -14,14 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path,re_path
+from django.urls import path, re_path, include
 from django.views.static import serve
 import xadmin
 
+from rest_framework.documentation import include_docs_urls
+from rest_framework.routers import DefaultRouter
+
 from MossonMall.settings import MEDIA_ROOT
+# from goods.views_base import GoodListView
+# from goods.views import GoodListView
+from goods.views import GoodListViewSet
 
-from goods.views_base import GoodListView
+router = DefaultRouter()
+router.register(r'goods', GoodListViewSet, basename="goods")
 
+
+goods_list = GoodListViewSet.as_view({
+    'get': 'list',
+})
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -30,5 +41,11 @@ urlpatterns = [
     re_path(r'^media/(?P<path>.*)$', serve, {"document_root": MEDIA_ROOT}),
 
     # 商品列表
-    re_path(r'goods/$', GoodListView.as_view(), name="gods-list")
+    # re_path(r'goods/$', GoodListView.as_view(), name="gods-list"),
+    # 程序的说明文档
+    path('docs/', include_docs_urls(title='路飞')),
+    # drf登录的url
+    re_path(r'^api-auth/', include('rest_framework.urls')),
+
+    path(r'', include(router.urls)),
 ]
