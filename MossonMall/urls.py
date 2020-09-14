@@ -24,10 +24,12 @@ from rest_framework.routers import DefaultRouter
 from MossonMall.settings import MEDIA_ROOT
 # from goods.views_base import GoodListView
 # from goods.views import GoodListView
-from goods.views import GoodListViewSet
+from goods.views import GoodListViewSet, GoodsCategoryViewset
 
 router = DefaultRouter()
 router.register(r'goods', GoodListViewSet, basename="goods")
+#配置category的url
+router.register(r'categorys', GoodsCategoryViewset, basename="categorys")
 
 
 goods_list = GoodListViewSet.as_view({
@@ -46,6 +48,7 @@ urlpatterns = [
     path('docs/', include_docs_urls(title='路飞')),
     # drf登录的url
     re_path(r'^api-auth/', include('rest_framework.urls')),
-
+    #
     path(r'', include(router.urls)),
+
 ]
