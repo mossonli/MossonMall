@@ -46,8 +46,8 @@ class GoodsSerializer(serializers.ModelSerializer):
     # images = GoodsImageSerializer(many=True)
     class Meta:
         model = Goods
-        fields = ('name', 'click_num', 'market_price', 'add_time', 'category')
-        # fields = "__all__"    # 序列化所有的字段
+        # fields = ('name', 'click_num', 'shop_price', 'add_time', 'category')
+        fields = "__all__"    # 序列化所有的字段
 
 # class GoodsCategorySerializer(serializers.ModelSerializer):
 #     """

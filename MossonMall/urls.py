@@ -20,6 +20,8 @@ import xadmin
 
 from rest_framework.documentation import include_docs_urls
 from rest_framework.routers import DefaultRouter
+from rest_framework.authtoken import views
+from rest_framework_jwt.views import obtain_jwt_token
 
 from MossonMall.settings import MEDIA_ROOT
 # from goods.views_base import GoodListView
@@ -48,6 +50,10 @@ urlpatterns = [
     path('docs/', include_docs_urls(title='路飞')),
     # drf登录的url
     re_path(r'^api-auth/', include('rest_framework.urls')),
+    # drf自带的token认证方式
+    path(r'api-token-auth/', views.obtain_auth_token),
+    # jwt 认证方式
+    re_path(r'^login-jwt/', obtain_jwt_token),
     #
     path(r'', include(router.urls)),
 

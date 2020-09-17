@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import sys
+import datetime
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'xadmin',
     'rest_framework',
     'django_filters',# restframework 的过滤插件
+    'rest_framework.authtoken', #drf中用于用户认证
 ]
 
 MIDDLEWARE = [
@@ -140,7 +142,10 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = False   #默认是Ture，时间是utc时间，由于我们要用本地时间，所用手动修改为false！！！！
 
-
+# 自定义用户登录的验证方式
+AUTHENTICATION_BACKENDS = (
+    'users.views.CustomBackend',
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
@@ -152,5 +157,17 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 REST_FRAMEWORK = {
+    # 默认就是使用的AUTHENTICATION_CLASSES(BasicAuthentication SessionAuthentication)
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',    # drf自带的token认证方式
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # jwt的认证
+    ),
+}
 
+# jwt配置
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',
 }
