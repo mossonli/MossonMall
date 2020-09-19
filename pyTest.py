@@ -1,52 +1,18 @@
-# import jieba
-# import xlrd
-# data = xlrd.open_workbook("/Users/mosson/desktop/py学员.xls")
-# print(data)
-# table = data.sheets()[0]
-# col1 = table.col_values(1)
-# for i in col1:
-#     seg_generator = jieba.cut(i, cut_all=True)
-#     print(list(seg_generator))
-import json
-
+from lxml import etree
 import requests
+from lxml.html import fromstring, tostring
+url = "https://libweb.zju.edu.cn/39511/list.htm"
+headers = {
+    'User-Agent':'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) '
+                 'Chrome/72.0.3626.121 Safari/537.36'
 
-# 翻译函数，word 需要翻译的内容
-def translate(word):
-    # 有道词典 api
-    url = 'http://fanyi.youdao.com/translate?smartresult=dict&smartresult=rule&smartresult=ugc&sessionFrom=null'
-    # 传输的参数，其中 i 为需要翻译的内容
-    key = {
-        'type': "AUTO",
-        'i': word,
-        "doctype": "json",
-        "version": "2.1",
-        "keyfrom": "fanyi.web",
-        "ue": "UTF-8",
-        "action": "FY_BY_CLICKBUTTON",
-        "typoResult": "true"
-    }
-    # key 这个字典为发送给有道词典服务器的内容
-    response = requests.post(url, data=key)
-    # 判断服务器是否相应成功
-    if response.status_code == 200:
-        # 然后相应的结果
-        print('111')
-        return response.text
-    else:
-        print("有道词典调用失败")
-        # 相应失败就返回空
-        return None
+}
+ret = requests.get(url, headers=headers)
+code = ret.apparent_encoding  # 获取url对应的编码格式
+ret.encoding = code
+html = ret.text               # html文件内容即示例中的标签
 
-def get_reuslt(repsonse):
-    # 通过 json.loads 把返回的结果加载成 json 格式
-    result = json.loads(repsonse)
-
-    return result['translateResult'][0][0]['tgt']
-
-def main(err):
-    word = "中国"
-    list_trans = translate(word)
-    return get_reuslt(list_trans)
-
-print(main('SyntaxError: bad input on line 1'))
+tree = etree.HTML(html)
+result = tree.xpath('//*[@id="wp_content_w14_0"]')[0]
+div = etree.tostring(result).decode()
+print(div)
