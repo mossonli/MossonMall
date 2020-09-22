@@ -27,11 +27,16 @@ from MossonMall.settings import MEDIA_ROOT
 # from goods.views_base import GoodListView
 # from goods.views import GoodListView
 from goods.views import GoodListViewSet, GoodsCategoryViewset
+from users.views import SmsCodeViewset, UserRegViewset
 
 router = DefaultRouter()
 router.register(r'goods', GoodListViewSet, basename="goods")
-#配置category的url
+# 配置category的url
 router.register(r'categorys', GoodsCategoryViewset, basename="categorys")
+# 验证码发送
+router.register(r'codes', SmsCodeViewset, basename="codes")
+# 用户注册
+router.register(r'users', UserRegViewset, basename="users")
 
 
 goods_list = GoodListViewSet.as_view({

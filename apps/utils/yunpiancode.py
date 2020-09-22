@@ -15,7 +15,7 @@ class Yunpian(object):
         }
         response = requests.post(self.single_send_url, data=params)
         ret = json.loads(response.text)
-        print(ret)
+        return ret
 
 if __name__ == '__main__':
     yun_pian = Yunpian("33d6bd07ac642204e14b6eeef1409683")
