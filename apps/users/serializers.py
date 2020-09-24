@@ -52,11 +52,11 @@ class UserRegSerializer(serializers.ModelSerializer):
     )
 
     # 方式1 重写create  方式2 利用信号量
-    def create(self, validated_data):
-        user = super(UserRegSerializer, self).create(validated_data=validated_data)
-        user.set_password(validated_data["password"])
-        user.save()
-        return user
+    # def create(self, validated_data):
+    #     user = super(UserRegSerializer, self).create(validated_data=validated_data)
+    #     user.set_password(validated_data["password"])
+    #     user.save()
+    #     return user
 
     def validate_code(self, code):
         # self.initial_data 是前端传来的form表单的内容

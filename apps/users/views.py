@@ -10,6 +10,8 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
+from rest_framework_jwt.serializers import jwt_encode_handler, jwt_payload_handler
+
 from .serializers import SmsSerializer, UserRegSerializer
 from .models import VerifyCode
 from MossonMall.settings import YunPianSettings
@@ -74,4 +76,22 @@ class UserRegViewset(CreateModelMixin, viewsets.GenericViewSet):
     """
     serializer_class = UserRegSerializer
     queryset = User.objects.all()
+
+    # 前端生成 token 用于用户注册之后直接登录
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = self.perform_create(serializer)
+
+        re_dict = serializer.data
+        payload = jwt_payload_handler(user)
+        re_dict["token"] = jwt_encode_handler(payload)
+        re_dict["name"] = user.name if user.name else user.username
+
+        headers = self.get_success_headers(serializer.data)
+        # return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+
+    def perform_create(self, serializer):
+        return serializer.save()
 
