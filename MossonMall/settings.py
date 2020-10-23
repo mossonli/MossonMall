@@ -160,11 +160,12 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 REST_FRAMEWORK = {
     # 默认就是使用的AUTHENTICATION_CLASSES(BasicAuthentication SessionAuthentication)
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',    # drf自带的token认证方式
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # jwt的认证
+        'rest_framework.authentication.BasicAuthentication',        # 基本的认证
+        'rest_framework.authentication.SessionAuthentication',      # session认证
+        # 'rest_framework.authentication.TokenAuthentication',    # drf自带的token认证方式  一般配置到具体的view中
+        # 'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # jwt的认证
     ),
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.AutoSchema",    # 访问/docs/ 需要的配置
 }
 
 # jwt配置

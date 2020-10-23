@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Goods, GoodsCategory
+from .models import Goods, GoodsCategory,GoodsImage
 
 
 # class GoodSerializer(serializers.Serializer):
@@ -38,12 +38,19 @@ class GoodsCategorySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class GoodsImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = GoodsImage
+        fields = ("image",)
+
+
 class GoodsSerializer(serializers.ModelSerializer):
     """
     modelserializer 和modelform的用法类似
     """
     category = GoodsCategorySerializer()  # category 是 goods里面的外键
     # images = GoodsImageSerializer(many=True)
+    images = GoodsImageSerializer(many=True) # many=true   images可能有多个
     class Meta:
         model = Goods
         # fields = ('name', 'click_num', 'shop_price', 'add_time', 'category')

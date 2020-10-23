@@ -45,6 +45,7 @@ class GoodsPagination(PageNumberPagination):
 class GoodListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     商品列表页，分页、搜索、过滤、排序
+     mixins.RetrieveModelMixin 实现 商品详情
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer  # 序列化类
